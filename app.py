@@ -23,13 +23,18 @@ SCOPES = ['https://www.googleapis.com/auth/drive.file']
 
 def get_drive_service():
     creds_json = os.environ.get("GOOGLE_CREDENTIALS")
-    if creds_json:
-        creds_info = json.loads(creds_json)
-        creds = Credentials.from_service_account_info(creds_info, scopes=SCOPES)
-    else:
-        creds = Credentials.from_service_account_file(SERVICE_ACCOUNT_FILE, scopes=SCOPES)
+    if not creds_json:
+        raise ValueError("GOOGLE_CREDENTIALS environment variable is missing!")
+        
+    creds_info = json.loads(creds_json)
+    
+    # Fix corrupted or double-escaped private key newlines
+    if "private_key" in creds_info:
+        creds_info["private_key"] = creds_info["private_key"].replace("\\n", "\n")
+        
+    creds = Credentials.from_service_account_info(creds_info, scopes=SCOPES)
     return build('drive', 'v3', credentials=creds)
-def generate_pdf(data, output_path):
+    def generate_pdf(data, output_path):
     doc = SimpleDocTemplate(
         output_path,
         pagesize=letter,
