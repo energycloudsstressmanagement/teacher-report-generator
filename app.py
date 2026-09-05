@@ -35,16 +35,16 @@ def get_drive_service():
     creds = Credentials.from_service_account_info(creds_info, scopes=SCOPES)
     return build('drive', 'v3', credentials=creds)
     def generate_pdf(data, output_path):
-    doc = SimpleDocTemplate(
-        output_path,
-        pagesize=letter,
-        rightMargin=40, leftMargin=40, topMargin=40, bottomMargin=40
-    )
-    styles = getSampleStyleSheet()
-    
-    title_style = ParagraphStyle(
-        'TitleStyle',
-        parent=styles['Heading1'],
+        doc = SimpleDocTemplate(
+            output_path,
+            pagesize=letter,
+            rightMargin=40, leftMargin=40, topMargin=40, bottomMargin=40
+        )
+        styles = getSampleStyleSheet()
+        
+        title_style = ParagraphStyle(
+            'TitleStyle',
+            parent=styles['Heading1'],
         fontName='Helvetica-Bold',
         fontSize=18,
         textColor=colors.HexColor('#1A365D'),
