@@ -16,7 +16,7 @@ app = Flask(__name__)
 # CONFIGURATION
 # ==========================================
 # Replace the text below with your actual Google Drive Folder ID
-DRIVE_FOLDER_ID = "https://drive.google.com/drive/folders/1qWtB3jy8tyA311HW7W9qzfq5Pb8ySRRh"
+DRIVE_FOLDER_ID = "1qwtB3jy8tyA311HW7W9qzfq5Pb8ySRRh"
 SERVICE_ACCOUNT_FILE = "service_account.json"
 
 SCOPES = ['https://www.googleapis.com/auth/drive.file']
