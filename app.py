@@ -1,4 +1,5 @@
-﻿import os
+import json
+import os
 import tempfile
 from flask import Flask, request, jsonify
 from reportlab.lib.pagesizes import letter
