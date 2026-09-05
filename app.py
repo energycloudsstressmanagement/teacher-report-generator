@@ -21,9 +21,13 @@ SERVICE_ACCOUNT_FILE = "service_account.json"
 SCOPES = ['https://www.googleapis.com/auth/drive.file']
 
 def get_drive_service():
-    creds = Credentials.from_service_account_file(SERVICE_ACCOUNT_FILE, scopes=SCOPES)
+    creds_json = os.environ.get("GOOGLE_CREDENTIALS")
+    if creds_json:
+        creds_info = json.loads(creds_json)
+        creds = Credentials.from_service_account_info(creds_info, scopes=SCOPES)
+    else:
+        creds = Credentials.from_service_account_file(SERVICE_ACCOUNT_FILE, scopes=SCOPES)
     return build('drive', 'v3', credentials=creds)
-
 def generate_pdf(data, output_path):
     doc = SimpleDocTemplate(
         output_path,
