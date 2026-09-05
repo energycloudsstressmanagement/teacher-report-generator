@@ -1,6 +1,7 @@
 import json
 import os
 import tempfile
+import ast
 from flask import Flask, request, jsonify
 from reportlab.lib.pagesizes import letter
 from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, Table, TableStyle
@@ -25,7 +26,13 @@ def get_drive_service():
     if not creds_json:
         raise ValueError("GOOGLE_CREDENTIALS environment variable is missing!")
         
-    creds_info = json.loads(creds_json)
+    try:
+        creds_info = json.loads(creds_json)
+    except json.JSONDecodeError:
+        try:
+            creds_info = ast.literal_eval(creds_json)
+        except Exception as e:
+            raise ValueError(f"Failed to parse GOOGLE_CREDENTIALS JSON: {e}")
     
     if "private_key" in creds_info:
         creds_info["private_key"] = creds_info["private_key"].replace("\\n", "\n")
@@ -109,16 +116,12 @@ def webhook():
             return jsonify({"status": "error", "message": "No JSON payload provided"}), 400
 
         submission = payload.get('submission', payload)
-        
         teacher_name = submission.get('teacher_name', 'Educator')
-        
         pdf_filename = f"Wellness_Report_{teacher_name.replace(' ', '_')}.pdf"
         
         with tempfile.TemporaryDirectory() as temp_dir:
             pdf_path = os.path.join(temp_dir, pdf_filename)
-            
             generate_pdf(submission, pdf_path)
-            
             file_id = upload_to_drive(pdf_path, pdf_filename)
 
         return jsonify({"status": "success", "file_id": file_id}), 200
