@@ -1,7 +1,7 @@
 import json
 import os
 import tempfile
-import ast
+import base64
 from flask import Flask, request, jsonify
 from reportlab.lib.pagesizes import letter
 from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, Table, TableStyle
@@ -13,26 +13,23 @@ from googleapiclient.http import MediaFileUpload
 
 app = Flask(__name__)
 
-# ==========================================
-# CONFIGURATION
-# ==========================================
 DRIVE_FOLDER_ID = "1qwtB3jy8tyA311HW7W9qzfq5Pb8ySRRh"
-SERVICE_ACCOUNT_FILE = "service_account.json"
-
 SCOPES = ['https://www.googleapis.com/auth/drive.file']
 
 def get_drive_service():
-    creds_json = os.environ.get("GOOGLE_CREDENTIALS")
-    if not creds_json:
+    creds_env = os.environ.get("GOOGLE_CREDENTIALS")
+    if not creds_env:
         raise ValueError("GOOGLE_CREDENTIALS environment variable is missing!")
         
     try:
-        creds_info = json.loads(creds_json)
-    except json.JSONDecodeError:
         try:
-            creds_info = ast.literal_eval(creds_json)
-        except Exception as e:
-            raise ValueError(f"Failed to parse GOOGLE_CREDENTIALS JSON: {e}")
+            decoded_bytes = base64.b64decode(creds_env)
+            creds_json = decoded_bytes.decode('utf-8')
+            creds_info = json.loads(creds_json)
+        except Exception:
+            creds_info = json.loads(creds_env)
+    except Exception as e:
+        raise ValueError(f"Failed to parse credentials: {e}")
     
     if "private_key" in creds_info:
         creds_info["private_key"] = creds_info["private_key"].replace("\\n", "\n")
