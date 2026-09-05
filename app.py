@@ -30,7 +30,12 @@ CREDENTIALS_INFO = {
 }
 
 def get_drive_service():
-    creds = Credentials.from_service_account_info(CREDENTIALS_INFO, scopes=SCOPES)
+    # Write dict to a temp JSON file so Google's library parses the PEM file safely from disk
+    cred_file = tempfile.mktemp(suffix=".json")
+    with open(cred_file, "w") as f:
+        json.dump(CREDENTIALS_INFO, f)
+        
+    creds = Credentials.from_service_account_file(cred_file, scopes=SCOPES)
     return build('drive', 'v3', credentials=creds)
 
 def generate_pdf(data, output_path):
