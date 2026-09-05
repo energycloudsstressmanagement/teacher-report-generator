@@ -15,12 +15,11 @@ app = Flask(__name__)
 DRIVE_FOLDER_ID = "1qwtB3jy8tyA311HW7W9qzfq5Pb8ySRRh"
 SCOPES = ['https://www.googleapis.com/auth/drive.file']
 
-# Hardcoded credentials to completely bypass Render environment variable issues
 CREDENTIALS_INFO = {
     "type": "service_account",
     "project_id": "teachers-project-507706",
     "private_key_id": "22f0432add29a85fa6ea05df0168a7a60559f23e",
-    "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvAIBADANBgkqhkiG9w0BAQEFAASCBKYwggSiAgEAAoIBAQDGvHwJVyOhgb/u\nvT1wxTYFwNiAEZsX9Xo6pilQM+tbIrel72UPeNWqQOujrJ2wko0rR1k6dG9wSPND\nBz00bdiru/UlwwE8LXW9xORzeJfkeILmFxzi1ha/nZVs6DPvkZ1BbE/J+iyt+q0+\n5pbO18TbqQGpQPVwAt/TnXSokgfi1pfomAFDzSJkt4YZOa6pdqIvleaBimNq0Tqv\naitrrYakw2OFbwqLoeBQi1pkXm4QPIMxfcPCdR6+iKgpVEFm/OtCLyA654znYpxs\nvkn/5Sl9OGsAwfJPNLB4Cx3DKVvettRSdprMUsRdWviIjHjyUyQlMpOAEM/SArcT\nM93pJsENAgMBAAECggEABdkZC0tRpJiFVdiivLVI7C1rEYWzGybhlGU8VPxaIiHo\n5oyfXC+xleN4K6ZSM5Z0agAc+4/ekZ7L7b6CSg8rb45F3fkZibRKwS1QjadQTOxQ\n6cVnV7N2Euhns783fAa8ambuCCMA+pOkUnQFnwuRYudbwafEMSocfQUmoCk/6yhZ\nI09couzluvJBl1/xpgCZo/Bbr/+sAlbltrLFOwdUfcToiLLoHDtXOxkCrJIrdhZN\nYdvfmzfXSCx9T5sBZ+XZ6nBX0g7ODO/eUgsCmlyfCQaqAthK8nvl2fhyWsdR1t/f\n+hKo3abCObo+eFBq8uIp/BQ5mkBmRo5K0DA7crajwQKBgQDoAPdjKgH+phIE1zx6\niGngWS302lZstYJB/9IrERtTqbYHoHFt6oyrHtxlKF4WeJVv4wOiyqMjo+qam/l1\nTMOzcB3j5R4tj9H+aSMgsuKm2QkeJpuex9UqIKKWlu0wr0C5LtY0dwq34r412I9a\nnYOfiTRDrs1YXyqkxeQ1+5SVoQKBgQDbSqfb/QyyAJ91wgSAZgtpKIJo8bEkTgt2\nlRz0oenw/i9eNAxwNRnK33tZpUoT/aH4AYRa1T87BOCgfS8fWMdp08I3s8D+vMtS\nsVOGklbzQak432tQtFP/bEazet0bbePGDl5/6Wi4c+mpD1CloCD5l6a97t2UqJjV\n58Ezpmhb7QKBgCrNeta9uk573xkriInmvvnYGiVxXr6Boj2A8ApoBo2h4uZ3UFYC\nDt/HOswi7XDh4FgbHuGa1wxNQowxuI1Ok1B4n9sauz2Wqhxw0z1GI5C6u/bnEpDx\ntz8ldDmqMKpputwvau+VAtI4L/WJNbF3HACD9LOD/XiPXjO2Gstm1dvhAoGAfwUy\nT9m2pdB4jRQx2VHCYEoHp9P/gID4YNqkaAr1YBNLyqwpXEFVzE5Au79jNkseq3Ht\ngVOuCXicyDlatzSMZX80K2Gic6tVtnNiZzuSw9qPs5KuLZQWZ4gHN+T99+piGhGu\nqTbA4r65ZKSrWRR0pT4zZibbEEXMKXLRVSKZpk0CgYBgKLKBONCUd1sQFymL7kBA\2OKVzMvhQA5xWsYP4FrC6M6CY5Jrnj3L2uVmmAutzPN/IP5jD583b/1kecz9ER/2\nq5QGPseBAm+DQD6hpsmK3xOnWv1RQkzMJRpXDxc7nw0f05NAt4B6oIOfDCR/J2Vy\np35l71WL4oH5C7qndGNfWQ==\n-----END PRIVATE KEY-----\n",
+    "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvAIBADANBgkqhkiG9w0BAQEFAASCBKYwggSiAgEAAoIBAQDGvHwJVyOhgb/u\nvT1wxTYFwNiAEZsX9Xo6pilQM+tbIrel72UPeNWqQOujrJ2wko0rR1k6dG9wSPND\nBz00bdiru/UlwwE8LXW9xORzeJfkeILmFxzi1ha/nZVs6DPvkZ1BbE/J+iyt+q0+\n5pbO18TbqQGpQPVwAt/TnXSokgfi1pfomAFDzSJkt4YZOa6pdqIvleaBimNq0Tqv\naitrrYakw2OFbwqLoeBQi1pkXm4QPIMxfcPCdR6+iKgpVEFm/OtCLyA654znYpxs\nvkn/5Sl9OGsAwfJPNLB4Cx3DKVvettRSdprMUsRdWviIjHjyUyQlMpOAEM/SArcT\nM93pJsENAgMBAAECggEABdkZC0tRpJiFVdiivLVI7C1rEYWzGybhlGU8VPxaIiHo\n5oyfXC+xleN4K6ZSM5Z0agAc+4/ekZ7L7b6CSg8rb45F3fkZibRKwS1QjadQTOxQ\n6cVnV7N2Euhns783fAa8ambuCCMA+pOkUnQFnwuRYudbwafEMSocfQUmoCk/6yhZ\nI09couzluvJBl1/xpgCZo/Bbr/+sAlbltrLFOwdUfcToiLLoHDtXOxkCrJIrdhZN\nYdvfmzfXSCx9T5sBZ+XZ6nBX0g7ODO/eUgsCmlyfCQaqAthK8nvl2fhyWsdR1t/f\n+hKo3abCObo+eFBq8uIp/BQ5mkBmRo5K0DA7crajwQKBgQDoAPdjKgH+phIE1zx6\niGngWS302lZstYJB/9IrERtTqbYHoHFt6oyrHtxlKF4WeJVv4wOiyqMjo+qam/l1\nTMOzcB3j5R4tj9H+aSMgsuKm2QkeJpuex9UqIKKWlu0wr0C5LtY0dwq34r412I9a\nnYOfiTRDrs1YXyqkxeQ1+5SVoQKBgQDbSqfb/QyyAJ91wgSAZgtpKIJo8bEkTgt2\nlRz0oenw/i9eNAxwNRnK33tZpUoT/aH4AYRa1T87BOCgfS8fWMdp08I3s8D+vMtS\nsVOGklbzQak432tQtFP/bEazet0bbePGDl5/6Wi4c+mpD1CloCD5l6a97t2UqJjV\n58Ezpmhb7QKBgCrNeta9uk573xkriInmvvnYGiVxXr6Boj2A8ApoBo2h4uZ3UFYC\Dt/HOswi7XDh4FgbHuGa1wxNQowxuI1Ok1B4n9sauz2Wqhxw0z1GI5C6u/bnEpDx\ntz8ldDmqMKpputwvau+VAtI4L/WJNbF3HACD9LOD/XiPXjO2Gstm1dvhAoGAfwUy\nT9m2pdB4jRQx2VHCYEoHp9P/gID4YNqkaAr1YBNLyqwpXEFVzE5Au79jNkseq3Ht\ngVOuCXicyDlatzSMZX80K2Gic6tVtnNiZzuSw9qPs5KuLZQWZ4gHN+T99+piGhGu\nqTbA4r65ZKSrWRR0pT4zZibbEEXMKXLRVSKZpk0CgYBgKLKBONCUd1sQFymL7kBA\2OKVzMvhQA5xWsYP4FrC6M6CY5Jrnj3L2uVmmAutzPN/IP5jD583b/1kecz9ER/2\nq5QGPseBAm+DQD6hpsmK3xOnWv1RQkzMJRpXDxc7nw0f05NAt4B6oIOfDCR/J2Vy\np35l71WL4oH5C7qndGNfWQ==\n-----END PRIVATE KEY-----\n",
     "client_email": "pdf-uploader@teachers-project-507706.iam.gserviceaccount.com",
     "client_id": "109346590890669210403",
     "auth_uri": "https://accounts.google.com/o/oauth2/auth",
@@ -30,8 +29,13 @@ CREDENTIALS_INFO = {
     "universe_domain": "googleapis.com"
 }
 
+# Write credentials to a temp file on startup to let Google parse it natively
+CRED_FILE_PATH = tempfile.mktemp(suffix=".json")
+with open(CRED_FILE_PATH, "w") as f:
+    json.dump(CREDENTIALS_INFO, f)
+
 def get_drive_service():
-    creds = Credentials.from_service_account_info(CREDENTIALS_INFO, scopes=SCOPES)
+    creds = Credentials.from_service_account_file(CRED_FILE_PATH, scopes=SCOPES)
     return build('drive', 'v3', credentials=creds)
 
 def generate_pdf(data, output_path):
