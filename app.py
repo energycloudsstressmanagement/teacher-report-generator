@@ -1,4 +1,3 @@
-import json
 import os
 import tempfile
 from flask import Flask, request, jsonify
@@ -16,13 +15,28 @@ DRIVE_FOLDER_ID = "1qwtB3jy8tyA311HW7W9qzfq5Pb8ySRRh"
 SCOPES = ['https://www.googleapis.com/auth/drive.file']
 
 def get_drive_service():
-    # Load credentials directly from Render environment variables safely
-    creds_json = os.environ.get("GOOGLE_CREDENTIALS_JSON")
-    if not creds_json:
-        raise ValueError("GOOGLE_CREDENTIALS_JSON environment variable is not set")
+    private_key = os.environ.get("GOOGLE_PRIVATE_KEY", "").replace("\\n", "\n")
+    client_email = os.environ.get("GOOGLE_CLIENT_EMAIL")
     
-    cred_dict = json.loads(creds_json)
+    if not private_key or not client_email:
+        raise ValueError("Google credentials environment variables are not set properly.")
+
+    cred_dict = {
+        "type": "service_account",
+        "project_id": "teachers-project-507706",
+        "private_key_id": "22f0432add29a85fa6ea05df0168a7a60559f23e",
+        "private_key": private_key,
+        "client_email": client_email,
+        "client_id": "109346590890669210403",
+        "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+        "token_uri": "https://oauth2.googleapis.com/token",
+        "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+        "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/pdf-uploader%40teachers-project-507706.iam.gserviceaccount.com",
+        "universe_domain": "googleapis.com"
+    }
+
     cred_file = tempfile.mktemp(suffix=".json")
+    import json
     with open(cred_file, "w") as f:
         json.dump(cred_dict, f)
         
